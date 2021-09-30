@@ -1,8 +1,10 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![author](https://img.shields.io/badge/author-AlexGyver-informational.svg)
+## ВНИМАНИЕ, БИБЛИОТЕКА УСТАРЕЛА!
+**ИСПОЛЬЗУЙ БИБЛИОТЕКУ [EncButton](https://github.com/GyverLibs/EncButton)**
+
 # GyverEncoder
 Библиотека для расширенной работы с энкодером  
-**ВНИМАНИЕ, БИБЛИОТЕКА УСТАРЕЛА! ИСПОЛЬЗУЙ БИБЛИОТЕКУ [EncButton](https://github.com/GyverLibs/EncButton)**
 - Отработка поворота энкодера
 - Отработка "нажатого поворота"	
 - Отработка "быстрого поворота"
