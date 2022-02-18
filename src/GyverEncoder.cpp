@@ -51,11 +51,7 @@ Encoder::Encoder(uint8_t clk, uint8_t dt, int8_t sw, bool type) {
 
 // ================= SET =================
 void Encoder::setDirection(bool direction) {
-    if (direction) {
-        uint8_t buf = _CLK;
-        _CLK = _DT;
-        _DT = buf;
-    }
+    flags.dir_flag = direction;
 }
 void Encoder::setPinMode(bool mode) {
     pinMode(_CLK, (mode) ? INPUT : INPUT_PULLUP);
@@ -275,11 +271,8 @@ void Encoder::tick() {
         encState = 0;
         turnFlag = !turnFlag;
         if (turnFlag || !flags.enc_type) {
-            if (( (extTick) ? (flags.extDT) : _readDT() ) != prevState) {
-                encState = 1;
-            } else {
-                encState = 2;
-            }
+            if (( (extTick) ? (flags.extDT) : _readDT() ) != prevState) encState = 1;
+            else encState = 2;
         }
 
 #elif defined(BINARY_ALGORITHM)		
@@ -335,6 +328,7 @@ void Encoder::tick() {
                 
                 if (encState != 0) {
                     flags.isTurn_f = true;
+                    if (encState <= 2 && flags.dir_flag) encState = 3 - encState;
                     if (!SW_state && thisMls - fast_timer < _fast_timeout) {
                         if (encState == 1) flags.isFastL_f = true;
                         else if (encState == 2) flags.isFastR_f = true;

@@ -36,6 +36,7 @@
     v4.7: Исправлен случайный нажатый поворот в BINARY_ALGORITHM
     v4.8: увеличена производительность для AVR Arduino
     v4.9: быстрый поворот отключен если кнопка удерживается
+    v4.10: починил setDirection()
 */
 
 #ifndef GyverEncoder_h
@@ -112,6 +113,7 @@ typedef struct
     bool doubleFlag : 1;
     bool doubleAllow : 1;
     bool rst_flag : 1;
+    bool dir_flag : 1;
 } GyverEncoderFlags;
 #pragma pack(pop)
 

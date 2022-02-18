@@ -1,4 +1,4 @@
-[![Foo](https://img.shields.io/badge/Version-4.9-brightgreen.svg?style=flat-square)](#versions)
+[![Foo](https://img.shields.io/badge/Version-4.10-brightgreen.svg?style=flat-square)](#versions)
 [![Foo](https://img.shields.io/badge/Website-AlexGyver.ru-blue.svg?style=flat-square)](https://alexgyver.ru/)
 [![Foo](https://img.shields.io/badge/%E2%82%BD$%E2%82%AC%20%D0%9D%D0%B0%20%D0%BF%D0%B8%D0%B2%D0%BE-%D1%81%20%D1%80%D1%8B%D0%B1%D0%BA%D0%BE%D0%B9-orange.svg?style=flat-square)](https://alexgyver.ru/support_alex/)
 
@@ -156,6 +156,7 @@ void loop() {
 - v4.7: Исправлен случайный нажатый поворот в BINARY_ALGORITHM
 - v4.8: увеличена производительность для AVR Arduino
 - v4.9: быстрый поворот отключен если кнопка удерживается
+- v4.10: починил setDirection()
 
 <a id="feedback"></a>
 ## Баги и обратная связь
