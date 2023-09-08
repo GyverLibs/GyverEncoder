@@ -12,7 +12,7 @@ int8_t encPos = 0;
 
 // ================= CONSTRUCTOR =================
 Encoder::Encoder() {
-    flags.use_button = true;	
+    flags.use_button = true;    
 }
 
 Encoder::Encoder(uint8_t clk, uint8_t dt, int8_t sw, bool type) {
@@ -23,7 +23,7 @@ Encoder::Encoder(uint8_t clk, uint8_t dt, int8_t sw, bool type) {
         flags.use_button = true;
     } else {
         flags.use_button = false;
-    }	
+    }    
     flags.enc_type = type;
     
 #if defined(__AVR__)
@@ -38,8 +38,8 @@ Encoder::Encoder(uint8_t clk, uint8_t dt, int8_t sw, bool type) {
 #endif
     
     pinMode(_CLK, (DEFAULT_ENC_PULL ? INPUT : INPUT_PULLUP));
-    pinMode(_DT, (DEFAULT_ENC_PULL ? INPUT : INPUT_PULLUP));	
-    if (flags.use_button) pinMode(_SW, (DEFAULT_BTN_PULL ? INPUT : INPUT_PULLUP));	
+    pinMode(_DT, (DEFAULT_ENC_PULL ? INPUT : INPUT_PULLUP));    
+    if (flags.use_button) pinMode(_SW, (DEFAULT_BTN_PULL ? INPUT : INPUT_PULLUP));    
     flags.invBtn = (DEFAULT_BTN_PULL == HIGH_PULL) ? true : false;
 
 #if defined(FAST_ALGORITHM)
@@ -205,11 +205,11 @@ void Encoder::tick(bool clk, bool dt, bool sw) {
 
 void Encoder::tick() {
     uint32_t thisMls = millis();
-    uint32_t debounceDelta = thisMls - debounce_timer;	
+    uint32_t debounceDelta = thisMls - debounce_timer;    
 
 #ifdef ENC_WITH_BUTTON
     if (flags.use_button) {
-        if (!extTick) SW_state = _readSW() ^ flags.invBtn;	// читаем состояние кнопки SW
+        if (!extTick) SW_state = _readSW() ^ flags.invBtn;    // читаем состояние кнопки SW
         else SW_state = flags.extSW;
         
         if (SW_state && !flags.butt_flag && (debounceDelta > ENC_DEBOUNCE_BUTTON)) {
@@ -219,12 +219,12 @@ void Encoder::tick() {
             debounceDelta = 0;
             flags.isPress_f = true;
             flags.isHolded_f = true;
-            flags.doubleAllow = true;			
+            flags.doubleAllow = true;            
         }
         if (!SW_state && flags.butt_flag && (debounceDelta > ENC_DEBOUNCE_BUTTON)) {
             if (!flags.turn_flag && !flags.hold_flag) {  // если кнопка отпущена и ручка не поворачивалась
                 flags.turn_flag = false;
-                flags.isRelease_f = true;				
+                flags.isRelease_f = true;                
             }
             if (debounceDelta > ENC_HOLD_TIMEOUT) flags.isReleaseHold_f = true;
             flags.butt_flag = false;
@@ -239,23 +239,23 @@ void Encoder::tick() {
                 flags.countFlag = true;
             }
         }
-        if (flags.doubleFlag && debounceDelta > ENC_DOUBLE_TIMEOUT) {	
+        if (flags.doubleFlag && debounceDelta > ENC_DOUBLE_TIMEOUT) {    
             if (!flags.turn_flag) {
                 if (!flags.countFlag) flags.isSingle_f = true;
                 else flags.isDouble_f = true;
-            }			
+            }            
             flags.doubleFlag = false;
         }
         if (flags.butt_flag && debounceDelta > ENC_HOLD_TIMEOUT && !flags.turn_flag) {
             if (SW_state) {
-                flags.hold_flag = true;				
+                flags.hold_flag = true;                
                 flags.doubleAllow = false;
             } else {
                 flags.butt_flag = false;
-                flags.hold_flag = false;				
+                flags.hold_flag = false;                
                 debounce_timer = thisMls;
                 debounceDelta = 0;
-            }	
+            }    
         }
     }
 #endif
@@ -275,22 +275,22 @@ void Encoder::tick() {
             else encState = 2;
         }
 
-#elif defined(BINARY_ALGORITHM)		
+#elif defined(BINARY_ALGORITHM)        
         uint8_t curState = (extTick) ? (flags.extCLK | (flags.extDT << 1)) : (_readCLK() | (_readDT() << 1));
         
         if (curState != prevState
 #if (ENC_DEBOUNCE_TURN > 0)
         && (debounceDelta > ENC_DEBOUNCE_TURN)
 #endif
-        ) {			
+        ) {            
             encState = 0;
             if (flags.rst_flag) {
                 if (curState == 0b11) {
                     flags.rst_flag = 0;
                     //encState = 3-prevState;
                     switch (prevState) {
-                    case 0b10: encState = 1; break;		// 2 - 1
-                    case 0b01: encState = 2; break;		// 1 - 2
+                    case 0b10: encState = 1; break;        // 2 - 1
+                    case 0b01: encState = 2; break;        // 1 - 2
                     }
                 } else if (!flags.enc_type && (curState == 0b00)) {
                     flags.rst_flag = 0;
@@ -303,7 +303,7 @@ void Encoder::tick() {
             }
             if (curState == 0b00 || (!flags.enc_type && curState == 0b11)) flags.rst_flag = 1;
 
-#elif defined(PRECISE_ALGORITHM)			
+#elif defined(PRECISE_ALGORITHM)            
             uint8_t curState = (extTick) ? (flags.extCLK | (flags.extDT << 1)) : (_readCLK() | (_readDT() << 1));
 
             if (curState != prevState
@@ -323,7 +323,7 @@ void Encoder::tick() {
                         encState = (encPos == 2) ? 1 : 2;
                         encPos = 0;
                     }
-                }				
+                }                
 #endif
                 
                 if (encState != 0) {
@@ -337,7 +337,7 @@ void Encoder::tick() {
 #ifdef ENC_WITH_BUTTON
                     if (flags.use_button && SW_state) encState += 2;
 #endif
-                }		
+                }        
                 prevState = curState;
                 flags.turn_flag = true;
                 debounce_timer = thisMls;
